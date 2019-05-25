@@ -1,0 +1,31 @@
+type User {
+  id: ID! @id
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+  email: String! @unique
+  password: String!
+  profile: Profile! @relation(link: INLINE)
+  role: Role!
+}
+
+type Profile {
+  id: ID! @id
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+  firstName: String!
+  lastName: String!
+  dateOfBirth: DateTime
+  address: String
+  countryOfOrigin: String
+  user: User!
+}
+
+type AuthPayload {
+  token: String!
+  user: User!
+}
+
+enum Role {
+  USER
+  ADMIN
+}

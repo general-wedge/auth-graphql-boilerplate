@@ -1,0 +1,47 @@
+
+type Query {
+  me: User!
+  user(id: ID!): User!
+  users: [User!]!
+}
+
+type Mutation {
+  signup(email: String! password: String! firstName: String lastName: String): AuthPayload!
+  login(email: String!, password: String!): AuthPayload!
+  createUser(email: String!, password: String!, role: Role!): User!
+  deleteUser(id: ID!): User!
+}
+
+type User {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  email: String!
+  password: String!
+  profile: Profile!
+  role: Role!
+}
+
+type Profile {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  firstName: String!
+  lastName: String!
+  dateOfBirth: DateTime
+  address: String
+  countryOfOrigin: String
+  user: User!
+}
+
+type AuthPayload {
+  token: String!
+  user: User!
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+scalar DateTime

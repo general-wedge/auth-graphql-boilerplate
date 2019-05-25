@@ -1,0 +1,35 @@
+version: '3'
+services:
+  mulligan-api:
+    image: prismagraphql/prisma:1.33
+    restart: always
+    ports:
+    - "${PRISMA_PORT}:${PRISMA_PORT}"
+    environment:
+      PRISMA_CONFIG: |
+        port: ${PRISMA_PORT}
+        # uncomment the next line and provide the env var PRISMA_MANAGEMENT_API_SECRET=my-secret to activate cluster security
+        # managementApiSecret: my-secret
+        databases:
+          # Change the name of the container to whatever you like.
+          auth-db:
+            database: ${PRISMA_DATABASENAME}
+            connector: postgres
+            host: postgres
+            user: ${PRISMA_USERNAME}
+            password: ${PRISMA_PASSWORD}
+            rawAccess: true
+            port: ${PSQL_PORT}
+            migrations: true
+  postgres:
+    ports:
+      - ${PSQL_PORTS}
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: ${PRISMA_USERNAME}
+      POSTGRES_PASSWORD: ${PRISMA_PASSWORD}
+    volumes:
+      - postgres:/var/lib/postgresql/data
+volumes:
+  postgres:
